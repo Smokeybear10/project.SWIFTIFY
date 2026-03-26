@@ -120,14 +120,7 @@ export default function HomePage() {
             </span>
           </div>
         </div>
-        <div 
-          className="sw-carousel-container" 
-          style={{ 
-            position: 'relative', width: '45%', height: '380px', overflow: 'hidden', 
-            borderRadius: '16px', boxShadow: '0 20px 40px rgba(0,0,0,0.6)', 
-            border: '1px solid rgba(255,255,255,0.08)' 
-          }}
-        >
+        <div className="sw-carousel-container">
           {heroImages.map((src, idx) => {
             let offset = idx - currentHeroIdx;
             // Wrap the offsets for infinite looping behavior
