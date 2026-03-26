@@ -106,7 +106,7 @@ body::after {
   justify-content: space-between;
   align-items: center;
   padding: 0 2.5rem;
-  height: 72px;
+  height: 60px;
   background: rgba(10, 5, 8, 0.4);
   backdrop-filter: blur(30px);
   -webkit-backdrop-filter: blur(30px);
@@ -116,21 +116,35 @@ body::after {
 .sw-navbar__left { display: flex; align-items: center; }
 .sw-navbar__right { display: flex; align-items: center; gap: 2.5rem; }
 
+.sw-navbar__brand-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
 .sw-navbar__brand {
   font-family: var(--font-display);
   font-weight: 900;
-  font-size: 1.2rem;
+  font-size: 1.15rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
   background: linear-gradient(135deg, #e8a0bf, #be4878);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  text-decoration: none;
-  margin-right: auto;
+  line-height: 1.1;
   transition: opacity 0.2s;
 }
-.sw-navbar__brand:hover { opacity: 0.8; }
+
+.sw-navbar__brand-subtitle {
+  font-family: var(--font-body);
+  font-size: 0.65rem;
+  font-weight: 500;
+  color: rgba(255,255,255,0.4);
+  letter-spacing: 0.05em;
+  line-height: 1.2;
+}
+.sw-navbar__brand-container:hover { opacity: 0.8; }
 
 .sw-navbar__link {
   font-family: var(--font-display);

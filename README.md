@@ -1,5 +1,7 @@
 # Swiftify
 
+<img src="client/public/img/demo.gif" alt="Swiftify Demo UI" width="100%" style="border-radius: 8px; margin: 10px 0;" />
+
 A full-stack web application for exploring Taylor Swift's discography. Browse albums, search songs with advanced filters, and discover random tracks — all wrapped in a dark, pink-accented UI.
 
 ## Tech Stack

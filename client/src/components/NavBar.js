@@ -4,8 +4,9 @@ export default function NavBar() {
   return (
     <nav className="sw-navbar">
       <div className="sw-navbar__left">
-        <NavLink to="/" className="sw-navbar__brand">
-          ✦ Swiftify
+        <NavLink to="/" className="sw-navbar__brand-container" style={{ textDecoration: 'none' }}>
+          <div className="sw-navbar__brand">✦ Swiftify</div>
+          <div className="sw-navbar__brand-subtitle">by Thomas Ou</div>
         </NavLink>
       </div>
 
