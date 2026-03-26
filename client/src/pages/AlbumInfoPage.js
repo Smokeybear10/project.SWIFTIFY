@@ -4,6 +4,7 @@ import { NavLink } from 'react-router-dom';
 
 import SongCard from '../components/SongCard';
 import { formatDuration, formatReleaseDate } from '../helpers/formatter';
+import fallbackAlbumsBackup from '../fallback/albums_backup.json';
 const config = require('../config.json');
 
 export default function AlbumInfoPage() {
@@ -23,6 +24,7 @@ export default function AlbumInfoPage() {
       .catch(() => {
         const cached = localStorage.getItem(`sw_cache_albuminfo_${album_id}`);
         if (cached) setAlbumData(JSON.parse(cached));
+        else if (fallbackAlbumsBackup.info[album_id]) setAlbumData(fallbackAlbumsBackup.info[album_id]);
       });
 
     fetch(`http://${config.server_host}:${config.server_port}/album_songs/${album_id}`)
@@ -34,6 +36,7 @@ export default function AlbumInfoPage() {
       .catch(() => {
         const cached = localStorage.getItem(`sw_cache_albumsongs_${album_id}`);
         if (cached) setSongData(JSON.parse(cached));
+        else if (fallbackAlbumsBackup.songs[album_id]) setSongData(fallbackAlbumsBackup.songs[album_id]);
       });
   }, [album_id]);
 
