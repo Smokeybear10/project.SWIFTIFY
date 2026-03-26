@@ -29,7 +29,7 @@ export default function HomePage() {
       setCurrentHeroIdx(prev => (prev + 1) % heroImages.length);
     }, 4500);
     return () => clearInterval(timer);
-  }, []);
+  }, [currentHeroIdx]);
 
   const handlePrev = (e) => {
     e.stopPropagation();
@@ -139,7 +139,7 @@ export default function HomePage() {
                   position: 'absolute', top: 0, left: 0,
                   width: '100%', height: '100%', objectFit: 'cover',
                   transform: `translateX(${offset * 100}%)`,
-                  transition: isVisible ? 'transform 0.65s cubic-bezier(0.25, 1, 0.5, 1)' : 'none',
+                  transition: isVisible ? 'transform 0.65s cubic-bezier(0.175, 0.885, 0.32, 1.275)' : 'none',
                   visibility: isVisible ? 'visible' : 'hidden',
                   zIndex: offset === 0 ? 2 : 1
                 }}
