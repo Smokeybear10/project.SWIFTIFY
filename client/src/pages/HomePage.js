@@ -179,7 +179,7 @@ export default function HomePage() {
       />
 
       <hr className="sw-divider" />
-      <p className="sw-created-by">Created by {authorName}</p>
+
     </div>
   );
 }

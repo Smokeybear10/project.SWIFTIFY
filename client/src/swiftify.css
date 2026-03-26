@@ -99,19 +99,26 @@ body::after {
 
 /* ---- NavBar ---- */
 .sw-navbar {
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 2.5rem;
-  height: 60px;
-  background: rgba(10, 5, 8, 0.4);
-  backdrop-filter: blur(30px);
-  -webkit-backdrop-filter: blur(30px);
-  border-bottom: 1px solid rgba(212, 115, 154, 0.08);
+  padding: 0 1rem; /* reduced left/right padding for tighter alignment */
 }
+
+.sw-navbar__logo {
+  width: 24px; /* keep original size */
+  height: auto;
+  margin-right: 0.5rem; /* space between logo and text */
+}
+
+.sw-navbar__brand-container {
+  display: flex;
+  align-items: center;
+}
+
+.sw-navbar__brand-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+}
+
 
 .sw-navbar__left { display: flex; align-items: center; }
 .sw-navbar__right { display: flex; align-items: center; gap: 2.5rem; }
