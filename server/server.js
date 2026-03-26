@@ -21,8 +21,9 @@ app.get('/top_albums', routes.top_albums);
 app.get('/search_songs', routes.search_songs);
 app.get('/playlist/entrance_songs', routes.entrance_songs);
 
-app.listen(config.server_port, () => {
-  console.log(`Server running at http://${config.server_host}:${config.server_port}/`)
+const port = process.env.PORT || config.server_port;
+app.listen(port, () => {
+  console.log(`Server running on port ${port}`)
 });
 
 module.exports = app;
