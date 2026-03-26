@@ -7,6 +7,13 @@ export default function NavBar() {
         ✦ Swiftify
       </NavLink>
       <NavLink
+        to="/"
+        end
+        className={({ isActive }) => `sw-navbar__link${isActive ? ' active' : ''}`}
+      >
+        Home
+      </NavLink>
+      <NavLink
         to="/albums"
         className={({ isActive }) => `sw-navbar__link${isActive ? ' active' : ''}`}
       >

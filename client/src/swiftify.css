@@ -1,6 +1,6 @@
 /* ============================================
    SWIFTIFY — Global Styles
-   Taylor Swift Pink × Dark Aurora Theme
+   Taylor Swift Rose × Dark Professional Theme
    Inspired by thomasou.com aesthetic
    ============================================ */
 
@@ -8,22 +8,22 @@
 
 /* ---- CSS Variables ---- */
 :root {
-  --pink-100: #ffe4f0;
-  --pink-300: #f9a8d4;
-  --pink-400: #f472b6;
-  --pink-500: #ec4899;
-  --pink-600: #db2777;
-  --rose-400: #fb7185;
-  --rose-600: #e11d48;
-  --bg-dark: #0d0508;
-  --bg-mid:  #140a0e;
-  --glass-bg: rgba(255, 255, 255, 0.04);
-  --glass-border: rgba(249, 168, 212, 0.18);
-  --glass-hover: rgba(255, 255, 255, 0.08);
-  --text-primary: #fff1f7;
-  --text-muted: rgba(255, 241, 247, 0.6);
-  --shadow-pink: 0 0 40px rgba(236, 72, 153, 0.15);
-  --radius: 16px;
+  --pink-100: #fce7f3;
+  --pink-300: #e8a0bf;
+  --pink-400: #d4739a;
+  --pink-500: #be4878;
+  --pink-600: #9c2f5a;
+  --rose-400: #c96b82;
+  --rose-600: #a83050;
+  --bg-dark: #0a0508;
+  --bg-mid:  #120810;
+  --glass-bg: rgba(255, 255, 255, 0.03);
+  --glass-border: rgba(212, 115, 154, 0.14);
+  --glass-hover: rgba(255, 255, 255, 0.05);
+  --text-primary: #f5e6ee;
+  --text-muted: rgba(245, 230, 238, 0.5);
+  --shadow-pink: 0 4px 20px rgba(190, 72, 120, 0.08);
+  --radius: 12px;
   --font-display: 'Montserrat', sans-serif;
   --font-serif: 'Playfair Display', serif;
   --font-body: 'Inter', sans-serif;
@@ -41,23 +41,31 @@ body {
 }
 
 /* ---- Aurora Background ---- */
+/* ---- Moving Gradient Background ---- */
+@keyframes gradientShift {
+  0%   { background-position: 0% 0%; }
+  25%  { background-position: 100% 0%; }
+  50%  { background-position: 100% 100%; }
+  75%  { background-position: 0% 100%; }
+  100% { background-position: 0% 0%; }
+}
+
 body::before {
   content: '';
   position: fixed;
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  background:
-    radial-gradient(ellipse at 15% 20%, rgba(236, 72, 153, 0.18) 0%, transparent 50%),
-    radial-gradient(ellipse at 85% 80%, rgba(251, 113, 133, 0.12) 0%, transparent 50%),
-    radial-gradient(ellipse at 50% 50%, rgba(219, 39, 119, 0.06) 0%, transparent 60%);
-  animation: auroraDrift 20s ease-in-out infinite alternate;
-}
-
-@keyframes auroraDrift {
-  0%   { opacity: 1; transform: scale(1); }
-  50%  { opacity: 0.85; transform: scale(1.05); }
-  100% { opacity: 1; transform: scale(0.97); }
+  background: linear-gradient(
+    135deg,
+    #0a0508 0%,
+    #1a0812 25%,
+    #0f0a18 50%,
+    #180810 75%,
+    #0a0508 100%
+  );
+  background-size: 400% 400%;
+  animation: gradientShift 18s ease-in-out infinite;
 }
 
 /* Dot grid overlay */
@@ -67,19 +75,13 @@ body::after {
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  background-image: radial-gradient(circle, rgba(249, 168, 212, 0.18) 1px, transparent 1px);
-  background-size: 28px 28px;
-  opacity: 0.10;
+  background-image: radial-gradient(circle, rgba(212, 115, 154, 0.15) 1px, transparent 1px);
+  background-size: 32px 32px;
+  opacity: 0.07;
 }
 
-/* Vignette */
-.sw-vignette {
-  position: fixed;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-  background: radial-gradient(ellipse at 50% 50%, transparent 55%, rgba(13, 5, 8, 0.65) 100%);
-}
+/* Vignette — removed to avoid circular glow artifact */
+.sw-vignette { display: none; }
 
 /* Noise texture overlay */
 .sw-noise {
@@ -104,21 +106,21 @@ body::after {
   align-items: center;
   gap: 2rem;
   padding: 0 2.5rem;
-  height: 64px;
-  background: rgba(13, 5, 8, 0.7);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  height: 60px;
+  background: rgba(10, 5, 8, 0.8);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
   border-bottom: 1px solid var(--glass-border);
-  box-shadow: 0 4px 30px rgba(236, 72, 153, 0.08);
+  box-shadow: 0 1px 0 rgba(212, 115, 154, 0.08);
 }
 
 .sw-navbar__brand {
   font-family: var(--font-display);
   font-weight: 900;
-  font-size: 1.4rem;
-  letter-spacing: 0.25em;
+  font-size: 1.2rem;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
-  background: linear-gradient(135deg, #f9a8d4, #ec4899, #fb7185);
+  background: linear-gradient(135deg, #e8a0bf, #be4878);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -131,8 +133,8 @@ body::after {
 .sw-navbar__link {
   font-family: var(--font-display);
   font-weight: 600;
-  font-size: 0.78rem;
-  letter-spacing: 0.2em;
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--text-muted);
   text-decoration: none;
@@ -144,13 +146,13 @@ body::after {
   content: '';
   position: absolute;
   bottom: 0; left: 0;
-  width: 0; height: 2px;
-  background: linear-gradient(90deg, #ec4899, #fb7185);
+  width: 0; height: 1.5px;
+  background: var(--pink-400);
   border-radius: 2px;
   transition: width 0.3s ease;
 }
 .sw-navbar__link:hover,
-.sw-navbar__link.active { color: var(--pink-300); }
+.sw-navbar__link.active { color: var(--pink-300); text-shadow: 0 0 12px rgba(212, 115, 154, 0.35); }
 .sw-navbar__link:hover::after,
 .sw-navbar__link.active::after { width: 100%; }
 
@@ -165,21 +167,18 @@ body::after {
 /* ---- Section headings ---- */
 .sw-heading {
   font-family: var(--font-display);
-  font-weight: 900;
-  font-size: clamp(1.6rem, 4vw, 2.4rem);
+  font-weight: 800;
+  font-size: clamp(1.4rem, 3.5vw, 2rem);
   letter-spacing: -0.01em;
-  background: linear-gradient(135deg, #fff1f7, #f9a8d4);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--text-primary);
   margin-bottom: 1.25rem;
 }
 
 .sw-subheading {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 1.1rem;
-  letter-spacing: 0.08em;
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--pink-400);
   margin-bottom: 1rem;
@@ -199,12 +198,11 @@ body::after {
   padding: 1.5rem;
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
+  transition: border-color 0.25s, transform 0.25s;
 }
 .sw-card:hover {
-  border-color: rgba(249, 168, 212, 0.4);
-  transform: translateY(-3px);
-  box-shadow: var(--shadow-pink);
+  border-color: rgba(212, 115, 154, 0.3);
+  transform: translateY(-2px);
 }
 
 /* ---- Album thumbnail card ---- */
@@ -212,20 +210,20 @@ body::after {
   background: var(--glass-bg);
   border: 1px solid var(--glass-border);
   border-radius: var(--radius);
-  padding: 1.25rem;
+  padding: 1.1rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.75rem;
-  width: 200px;
+  gap: 0.65rem;
+  width: 190px;
   backdrop-filter: blur(12px);
-  transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
+  transition: transform 0.22s, border-color 0.22s;
   text-align: center;
 }
 .sw-album-card:hover {
-  transform: translateY(-5px) scale(1.02);
-  border-color: rgba(249, 168, 212, 0.5);
-  box-shadow: 0 8px 40px rgba(236, 72, 153, 0.2);
+  transform: translateY(-4px);
+  border-color: rgba(212, 115, 154, 0.45);
+  box-shadow: 0 6px 24px rgba(156, 47, 90, 0.18);
 }
 .sw-album-card img {
   width: 150px;
@@ -315,46 +313,42 @@ a.sw-link:hover, .sw-link:hover { color: var(--pink-100); }
 .sw-btn {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 0.8rem;
-  letter-spacing: 0.1em;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  padding: 0.65rem 1.6rem;
-  border-radius: 999px;
-  border: 1.5px solid var(--pink-500);
+  padding: 0.6rem 1.5rem;
+  border-radius: 8px;
+  border: 1px solid var(--pink-500);
   background: transparent;
   color: var(--pink-300);
   cursor: pointer;
-  transition: background 0.2s, color 0.2s, box-shadow 0.2s, transform 0.15s;
+  transition: background 0.18s, color 0.18s, border-color 0.18s;
 }
 .sw-btn:hover {
-  background: linear-gradient(135deg, #ec4899, #fb7185);
+  background: var(--pink-600);
   color: #fff;
-  border-color: transparent;
-  box-shadow: 0 4px 20px rgba(236, 72, 153, 0.4);
-  transform: translateY(-1px);
+  border-color: var(--pink-600);
 }
-.sw-btn:active { transform: translateY(0); }
+.sw-btn:active { opacity: 0.85; }
 
 .sw-btn-primary {
-  background: linear-gradient(135deg, #ec4899, #fb7185);
+  background: var(--pink-600);
   color: #fff;
-  border-color: transparent;
-  box-shadow: 0 4px 20px rgba(236, 72, 153, 0.3);
+  border-color: var(--pink-600);
 }
 .sw-btn-primary:hover {
-  box-shadow: 0 6px 30px rgba(236, 72, 153, 0.5);
-  filter: brightness(1.1);
+  background: var(--pink-500);
+  border-color: var(--pink-500);
 }
 
 .sw-btn-surprise {
-  background: linear-gradient(135deg, #9333ea, #ec4899);
+  background: #6b2d8b;
   color: #fff;
-  border-color: transparent;
-  box-shadow: 0 4px 20px rgba(147, 51, 234, 0.3);
+  border-color: #6b2d8b;
 }
 .sw-btn-surprise:hover {
-  box-shadow: 0 6px 30px rgba(147, 51, 234, 0.5);
-  filter: brightness(1.1);
+  background: #7c3da0;
+  border-color: #7c3da0;
 }
 
 /* ---- Search / Form Controls ---- */
@@ -387,12 +381,12 @@ a.sw-link:hover, .sw-link:hover { color: var(--pink-100); }
 
 /* ---- Modal / SongCard ---- */
 .sw-modal-box {
-  background: linear-gradient(145deg, #1a0a12, #120810) !important;
+  background: linear-gradient(145deg, #160810, #100710) !important;
   border: 1px solid var(--glass-border) !important;
-  border-radius: 20px !important;
-  width: 620px !important;
+  border-radius: 14px !important;
+  width: 600px !important;
   max-width: 95vw;
-  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.7), 0 0 60px rgba(236, 72, 153, 0.15) !important;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8) !important;
   color: var(--text-primary) !important;
 }
 
@@ -431,28 +425,27 @@ a.sw-link:hover, .sw-link:hover { color: var(--pink-100); }
 }
 .sw-chart-btn {
   font-family: var(--font-display);
-  font-size: 0.72rem;
+  font-size: 0.7rem;
   font-weight: 700;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  padding: 0.4rem 1rem;
-  border-radius: 999px;
-  border: 1.5px solid var(--glass-border);
+  padding: 0.35rem 0.9rem;
+  border-radius: 6px;
+  border: 1px solid var(--glass-border);
   background: transparent;
   color: var(--text-muted);
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.18s;
 }
 .sw-chart-btn.active, .sw-chart-btn:not(:disabled):hover {
-  background: linear-gradient(135deg, #ec4899, #fb7185);
+  background: var(--pink-600);
   color: #fff;
-  border-color: transparent;
-  box-shadow: 0 3px 15px rgba(236, 72, 153, 0.35);
+  border-color: var(--pink-600);
 }
 .sw-chart-btn:disabled {
-  background: linear-gradient(135deg, #ec4899, #fb7185);
+  background: var(--pink-600);
   color: #fff;
-  border-color: transparent;
+  border-color: var(--pink-600);
   opacity: 1;
   cursor: default;
 }
@@ -465,19 +458,16 @@ a.sw-link:hover, .sw-link:hover { color: var(--pink-100); }
 .sw-hero__title {
   font-family: var(--font-serif);
   font-style: italic;
-  font-size: clamp(2rem, 6vw, 3.5rem);
-  background: linear-gradient(135deg, #fff1f7 0%, #f9a8d4 50%, #ec4899 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  font-size: clamp(1.8rem, 5vw, 3rem);
+  color: var(--text-primary);
   margin-bottom: 0.5rem;
   line-height: 1.2;
 }
 .sw-hero__sotd-label {
   font-family: var(--font-display);
   font-weight: 600;
-  font-size: 0.75rem;
-  letter-spacing: 0.2em;
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--pink-400);
   margin-bottom: 0.4rem;
