@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Box, Container } from '@mui/material';
 import { NavLink } from 'react-router-dom';
-
 const config = require('../config.json');
 
 export default function AlbumsPage() {
@@ -13,31 +11,25 @@ export default function AlbumsPage() {
       .then(resJson => setAlbums(resJson));
   }, []);
 
-  // These formatting options leverage flexboxes, an incredibly powerful tool for formatting dynamic layouts.
-  // You can learn more on MDN web docs linked below (or many other online resources)
-  // https://developer.mozilla.org/en-US/docs/Learn/CSS/CSS_layout/Flexbox
-  const format1 = {};
-  const format2 = { display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly' };
-  const format3 = { display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-evenly' };
-  const format4 = { display: 'grid', justifyContent: 'space-evenly' };
-
   return (
-    <Container style={format3}>
-      {albums.map((album) =>
-        <Box
-          key={album.album_id}
-          p={3}
-          m={2}
-          style={{ background: '#c5cae9', borderRadius: '16px', border: '2px solid #000' }}
-        >
-          <img
-            key={album.album_id}
-            src={album.thumbnail_url}
-            alt={`${album.title} album art`}
-          />
-          <h4><NavLink to={`/albums/${album.album_id}`}>{album.title}</NavLink></h4>
-        </Box>
-      )}
-    </Container>
+    <div className="sw-page">
+      <h1 className="sw-heading">Albums</h1>
+      <p style={{ color: 'var(--text-muted)', marginBottom: '2rem', fontFamily: 'var(--font-body)', fontSize: '0.9rem' }}>
+        The complete Taylor Swift discography
+      </p>
+      <div className="sw-albums-grid">
+        {albums.map((album) => (
+          <div key={album.album_id} className="sw-album-card">
+            <img
+              src={album.thumbnail_url}
+              alt={`${album.title} album art`}
+            />
+            <h4>
+              <NavLink to={`/albums/${album.album_id}`}>{album.title}</NavLink>
+            </h4>
+          </div>
+        ))}
+      </div>
+    </div>
   );
 }

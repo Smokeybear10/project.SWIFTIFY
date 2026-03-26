@@ -1,22 +1,11 @@
 import { useEffect, useState } from 'react';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from '@mui/material';
+import { TablePagination } from '@mui/material';
 
-// This component provides a paginated MUI table that fetches data only from the specified page.
-// This optimization is known as lazy loading. It is unnecessary for you to utilize this optimization
-// in your final project, but is a good example of many React features and presented as an exercise.
-
-// Take a look at the definition of the LazyTable component. The parameters represent the properties (props)
-// passed into the component. Some of these props are optional (defaultPageSize, rowsPerPageOptions) while
-// others are required (routes, columns). Though not indicated by code, whether the props are optional or
-// required will affect how you handle them in the code.
 export default function LazyTable({ route, columns, defaultPageSize, rowsPerPageOptions }) {
   const [data, setData] = useState([]);
-
-  const [page, setPage] = useState(1); // 1 indexed
+  const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(defaultPageSize ?? 10);
 
-  // Now notice the dependency array contains route, page, pageSize, since we
-  // need to re-fetch the data if any of these values change
   useEffect(() => {
     fetch(`${route}?page=${page}&page_size=${pageSize}`)
       .then(res => res.json())
@@ -24,55 +13,54 @@ export default function LazyTable({ route, columns, defaultPageSize, rowsPerPage
   }, [route, page, pageSize]);
 
   const handleChangePage = (e, newPage) => {
-    // Can always go to previous page (TablePagination prevents negative pages)
-    // but only fetch next page if we haven't reached the end (currently have full page of data)
     if (newPage < page || data.length === pageSize) {
-      // Note that we set newPage + 1 since we store as 1 indexed but the default pagination gives newPage as 0 indexed
       setPage(newPage + 1);
     }
-  }
+  };
 
   const handleChangePageSize = (e) => {
-    // when handling events such as changing a selection box or typing into a text box,
-    // the handler is called with parameter e (the event) and the value is e.target.value
     const newPageSize = Number(e.target.value);
-
     setPageSize(newPageSize);
     setPage(1);
-  }
-
-  const defaultRenderCell = (col, row) => {
-    return <div>{row[col.field]}</div>;
-  }
+  };
 
   return (
-    <TableContainer>
-      <Table>
-        <TableHead>
-          <TableRow>
-            {columns.map(col => <TableCell key={col.headerName}>{col.headerName}</TableCell>)}
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {data.map((row, idx) =>
-            <TableRow key={idx}>
-              {columns.map((col) =>
-                <TableCell key={col.headerName}>
-                  {col.renderCell ? col.renderCell(row) : defaultRenderCell(col, row)}
-                </TableCell>
-              )}
-            </TableRow>
-          )}
-        </TableBody>
-        <TablePagination
-          rowsPerPageOptions={rowsPerPageOptions ?? [5, 10, 25]}
-          count={-1}
-          rowsPerPage={pageSize}
-          page={page - 1}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangePageSize}
-        />
-      </Table>
-    </TableContainer>
-  )
+    <div className="sw-table-container">
+      <table className="sw-table">
+        <thead>
+          <tr>
+            {columns.map(col => (
+              <th key={col.headerName}>{col.headerName}</th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {data.map((row, idx) => (
+            <tr key={idx}>
+              {columns.map((col) => (
+                <td key={col.headerName}>
+                  {col.renderCell ? col.renderCell(row) : row[col.field]}
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <TablePagination
+        rowsPerPageOptions={rowsPerPageOptions ?? [5, 10, 25]}
+        component="div"
+        count={-1}
+        rowsPerPage={pageSize}
+        page={page - 1}
+        onPageChange={handleChangePage}
+        onRowsPerPageChange={handleChangePageSize}
+        sx={{
+          color: 'rgba(255,241,247,0.6)',
+          fontFamily: 'Inter, sans-serif',
+          '& .MuiSvgIcon-root': { color: '#f472b6' },
+          '& .MuiSelect-select': { color: 'rgba(255,241,247,0.6)' },
+        }}
+      />
+    </div>
+  );
 }

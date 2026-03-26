@@ -1,19 +1,19 @@
 import { useEffect, useState } from 'react';
-import { Box, Button, ButtonGroup, Modal } from '@mui/material';
-import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, RadarChart, Radar, PolarGrid, PolarAngleAxis, PolarRadiusAxis } from 'recharts';
+import { Modal } from '@mui/material';
 import { NavLink } from 'react-router-dom';
+import {
+  ResponsiveContainer,
+  BarChart, Bar, XAxis, YAxis,
+  RadarChart, Radar, PolarGrid, PolarAngleAxis, PolarRadiusAxis,
+  Tooltip
+} from 'recharts';
 
 import { formatDuration } from '../helpers/formatter';
 const config = require('../config.json');
 
-// SongCard is a modal (a common example of a modal is a dialog window).
-// Typically, modals will conditionally appear (specified by the Modal's open property)
-// but in our implementation whether the Modal is open is handled by the parent component
-// (see HomePage.js for example), since it depends on the state (selectedSongId) of the parent
 export default function SongCard({ songId, handleClose }) {
   const [songData, setSongData] = useState({});
   const [albumData, setAlbumData] = useState({});
-
   const [barRadar, setBarRadar] = useState(true);
 
   useEffect(() => {
@@ -33,9 +33,7 @@ export default function SongCard({ songId, handleClose }) {
     { name: 'Valence', value: songData.valence },
   ];
 
-  const handleGraphChange = () => {
-    setBarRadar(!barRadar);
-  };
+  const chartColor = '#ec4899';
 
   return (
     <Modal
@@ -43,52 +41,133 @@ export default function SongCard({ songId, handleClose }) {
       onClose={handleClose}
       style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
     >
-      <Box
-        p={3}
-        style={{ background: 'white', borderRadius: '16px', border: '2px solid #000', width: 600 }}
-      >
-        <h1>{songData.title}</h1>
-        <h2>Album:&nbsp;
-          <NavLink to={`/albums/${albumData.album_id}`}>{albumData.title}</NavLink>
-        </h2>
-        <p>Duration: {formatDuration(songData.duration)}</p>
-        <p>Tempo: {songData.tempo} bpm</p>
-        <p>Key: {songData.key_mode}</p>
-        <ButtonGroup>
-          <Button disabled={barRadar} onClick={handleGraphChange}>Bar</Button>
-          <Button disabled={!barRadar} onClick={handleGraphChange}>Radar</Button>
-        </ButtonGroup>
-        <div style={{ margin: 20 }}>
-          { // This ternary statement returns a BarChart if barRadar is true, and a RadarChart otherwise
-            barRadar
-              ? (
-                <ResponsiveContainer height={250}>
-                  <BarChart
-                    data={chartData}
-                    layout='vertical'
-                    margin={{ left: 40 }}
-                  >
-                    <XAxis type='number' domain={[0, 1]} />
-                    <YAxis type='category' dataKey='name' />
-                    <Bar dataKey='value' stroke='#8884d8' fill='#8884d8' />
-                  </BarChart>
-                </ResponsiveContainer>
-              ) : (
-                <ResponsiveContainer height={250}>
-                  <RadarChart cx='50%' cy='50%' outerRadius='80%' data={chartData}>
-                    <PolarGrid />
-                    <PolarAngleAxis dataKey='name' />
-                    <PolarRadiusAxis domain={[0, 1]} />
-                    <Radar dataKey='value' stroke='#8884d8' fill='#8884d8' fillOpacity={0.6} />
-                  </RadarChart>
-                </ResponsiveContainer>
-              )
-          }
+      <div className="sw-modal-box" style={{
+        background: 'linear-gradient(145deg, #1a0a12, #120810)',
+        border: '1px solid rgba(249,168,212,0.18)',
+        borderRadius: '20px',
+        width: '620px',
+        maxWidth: '95vw',
+        padding: '2rem',
+        boxShadow: '0 24px 80px rgba(0,0,0,0.7), 0 0 60px rgba(236,72,153,0.15)',
+        outline: 'none',
+        position: 'relative',
+      }}>
+        {/* Close button */}
+        <button
+          onClick={handleClose}
+          style={{
+            position: 'absolute',
+            top: '1rem',
+            right: '1rem',
+            background: 'transparent',
+            border: 'none',
+            color: 'rgba(255,241,247,0.4)',
+            fontSize: '1.3rem',
+            cursor: 'pointer',
+            lineHeight: 1,
+            transition: 'color 0.2s',
+          }}
+          onMouseOver={e => e.target.style.color = '#f9a8d4'}
+          onMouseOut={e => e.target.style.color = 'rgba(255,241,247,0.4)'}
+        >
+          ✕
+        </button>
+
+        {/* Title */}
+        <h1 className="sw-modal-title" style={{
+          fontFamily: "'Playfair Display', serif",
+          fontStyle: 'italic',
+          fontSize: '1.8rem',
+          background: 'linear-gradient(135deg, #fff1f7, #f9a8d4)',
+          WebkitBackgroundClip: 'text',
+          WebkitTextFillColor: 'transparent',
+          backgroundClip: 'text',
+          marginBottom: '0.25rem',
+          paddingRight: '2rem',
+        }}>
+          {songData.title}
+        </h1>
+
+        {/* Album link */}
+        <p style={{ fontFamily: 'var(--font-display)', fontWeight: 600, fontSize: '0.9rem', color: 'rgba(255,241,247,0.6)', marginBottom: '1rem' }}>
+          Album:&nbsp;
+          <NavLink
+            to={`/albums/${albumData.album_id}`}
+            onClick={handleClose}
+            style={{ color: '#f9a8d4', textDecoration: 'none' }}
+          >
+            {albumData.title}
+          </NavLink>
+        </p>
+
+        {/* Meta info */}
+        <div style={{ display: 'flex', gap: '1.5rem', flexWrap: 'wrap', marginBottom: '1.5rem' }}>
+          {[
+            { label: 'Duration', value: formatDuration(songData.duration) },
+            { label: 'Tempo', value: `${songData.tempo} bpm` },
+            { label: 'Key', value: songData.key_mode },
+          ].map(({ label, value }) => (
+            <div key={label} style={{
+              background: 'rgba(255,255,255,0.04)',
+              border: '1px solid rgba(249,168,212,0.12)',
+              borderRadius: '10px',
+              padding: '0.5rem 1rem',
+              textAlign: 'center',
+            }}>
+              <div style={{ fontFamily: 'var(--font-display)', fontSize: '0.65rem', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#ec4899', marginBottom: '0.2rem' }}>
+                {label}
+              </div>
+              <div style={{ fontFamily: 'var(--font-body)', fontSize: '0.9rem', color: '#fff1f7' }}>
+                {value}
+              </div>
+            </div>
+          ))}
         </div>
-        <Button onClick={handleClose} style={{ left: '50%', transform: 'translateX(-50%)' }} >
-          Close
-        </Button>
-      </Box>
+
+        {/* Chart toggles */}
+        <div className="sw-chart-btn-group">
+          <button
+            className={`sw-chart-btn${barRadar ? ' active' : ''}`}
+            disabled={barRadar}
+            onClick={() => setBarRadar(true)}
+          >
+            Bar
+          </button>
+          <button
+            className={`sw-chart-btn${!barRadar ? ' active' : ''}`}
+            disabled={!barRadar}
+            onClick={() => setBarRadar(false)}
+          >
+            Radar
+          </button>
+        </div>
+
+        {/* Chart */}
+        <div style={{ margin: '0.75rem 0 1.5rem' }}>
+          {barRadar ? (
+            <ResponsiveContainer height={200}>
+              <BarChart data={chartData} layout="vertical" margin={{ left: 20, right: 20 }}>
+                <XAxis type="number" domain={[0, 1]} tick={{ fill: 'rgba(255,241,247,0.4)', fontSize: 11 }} />
+                <YAxis type="category" dataKey="name" tick={{ fill: '#f9a8d4', fontSize: 12, fontFamily: 'Inter' }} width={90} />
+                <Tooltip
+                  contentStyle={{ background: '#1a0a12', border: '1px solid rgba(249,168,212,0.2)', borderRadius: 8, color: '#fff1f7', fontSize: 12 }}
+                  cursor={{ fill: 'rgba(236,72,153,0.08)' }}
+                />
+                <Bar dataKey="value" fill={chartColor} radius={[0, 6, 6, 0]} />
+              </BarChart>
+            </ResponsiveContainer>
+          ) : (
+            <ResponsiveContainer height={220}>
+              <RadarChart cx="50%" cy="50%" outerRadius="75%" data={chartData}>
+                <PolarGrid stroke="rgba(249,168,212,0.15)" />
+                <PolarAngleAxis dataKey="name" tick={{ fill: '#f9a8d4', fontSize: 12 }} />
+                <PolarRadiusAxis domain={[0, 1]} tick={{ fill: 'rgba(255,241,247,0.3)', fontSize: 10 }} />
+                <Radar dataKey="value" stroke={chartColor} fill={chartColor} fillOpacity={0.25} />
+              </RadarChart>
+            </ResponsiveContainer>
+          )}
+        </div>
+      </div>
     </Modal>
   );
 }

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Container, Link, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import { NavLink } from 'react-router-dom';
 
 import SongCard from '../components/SongCard';
 import { formatDuration, formatReleaseDate } from '../helpers/formatter';
@@ -11,7 +11,6 @@ export default function AlbumInfoPage() {
 
   const [songData, setSongData] = useState([]);
   const [albumData, setAlbumData] = useState({});
-
   const [selectedSongId, setSelectedSongId] = useState(null);
 
   useEffect(() => {
@@ -25,50 +24,54 @@ export default function AlbumInfoPage() {
   }, [album_id]);
 
   return (
-    <Container>
-      {selectedSongId && <SongCard songId={selectedSongId} handleClose={() => setSelectedSongId(null)} />}
-      <Stack direction='row' justify='center'>
+    <div className="sw-page">
+      {selectedSongId && (
+        <SongCard songId={selectedSongId} handleClose={() => setSelectedSongId(null)} />
+      )}
+
+      {/* Album header */}
+      <div className="sw-album-info-header">
         <img
-          key={albumData.album_id}
           src={albumData.thumbnail_url}
           alt={`${albumData.title} album art`}
-          style={{
-            marginTop: '40px',
-            marginRight: '40px',
-            marginBottom: '40px'
-          }}
         />
-        <Stack>
-          <h1 style={{ fontSize: 64 }}>{albumData.title}</h1>
+        <div>
+          <h1>{albumData.title}</h1>
           <h2>Released: {formatReleaseDate(albumData.release_date)}</h2>
-        </Stack>
-      </Stack>
-      <TableContainer>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell key='#'>#</TableCell>
-              <TableCell key='Title'>Title</TableCell>
-              <TableCell key='Plays'>Plays</TableCell>
-              <TableCell key='Duration'>Duration</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {songData.map((song) =>
-              <TableRow key={song.song_id}>
-                <TableCell>{song.number}</TableCell>
-                <TableCell>
-                  <Link onClick={() => setSelectedSongId(song.song_id)}>
+        </div>
+      </div>
+
+      {/* Track list */}
+      <div className="sw-table-container">
+        <table className="sw-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Title</th>
+              <th>Plays</th>
+              <th>Duration</th>
+            </tr>
+          </thead>
+          <tbody>
+            {songData.map((song) => (
+              <tr key={song.song_id}>
+                <td style={{ color: 'var(--text-muted)', width: '3rem' }}>{song.number}</td>
+                <td>
+                  <span
+                    className="sw-link"
+                    onClick={() => setSelectedSongId(song.song_id)}
+                    style={{ cursor: 'pointer' }}
+                  >
                     {song.title}
-                  </Link>
-                </TableCell>
-                <TableCell>{song.plays}</TableCell>
-                <TableCell>{formatDuration(song.duration)}</TableCell>
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
-      </TableContainer>
-    </Container>
+                  </span>
+                </td>
+                <td style={{ color: 'var(--text-muted)' }}>{song.plays?.toLocaleString()}</td>
+                <td style={{ color: 'var(--text-muted)' }}>{formatDuration(song.duration)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
   );
 }
